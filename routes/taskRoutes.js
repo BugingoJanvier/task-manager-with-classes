@@ -7,6 +7,4 @@ const router = express.Router();
 
 router.post('/create', createTaskController);
 
-
-
 export default router;
