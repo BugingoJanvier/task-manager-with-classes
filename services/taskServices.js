@@ -9,8 +9,8 @@ const tasksFilePath = path.join(__dirname, '../data/tasks.json'); // Get the abs
 
 // Load tasks from the JSON file
 const loadTasks = () => {
-    if (!fs.existsSync(tasksFilePath)) return [];
-    return JSON.parse(fs.readFileSync(tasksFilePath, 'utf8'));
+    if (!fs.existsSync(tasksFilePath)) return []; // Return an empty array if the file doesn't exist
+    return JSON.parse(fs.readFileSync(tasksFilePath, 'utf8')); // Parse the file contents and return the tasks
 };
 
 // Save tasks to the JSON file
@@ -30,6 +30,29 @@ export class TaskServices {
         this.tasks.push(newTask); // Add the new task to the tasks array
         saveTasks(this.tasks); // Save the tasks to the file
         return newTask;
+    }
+
+    // Get all tasks
+    getTasks() {
+        return this.tasks;
+    }
+
+    // Get a task by ID
+    getTaskById(id) {
+        return this.tasks.find(task => task.id === id);
+    }
+
+    // Update a task by ID
+    updateTaskById(id, updatedTask) {
+        this.tasks = this.tasks.map(task => (task.id === id ? { ...task, ...updatedTask } : task));
+        saveTasks(this.tasks); // Save the tasks to the file
+        return updatedTask;
+    }
+
+    // Delete a task by ID
+    deleteTaskById(id) {
+        this.tasks = this.tasks.filter(task => task.id !== id);
+        saveTasks(this.tasks); // Save the tasks to the file
     }
 }
 
